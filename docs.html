@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seal Note API - Documentation</title>
+    <meta name="description" content="Complete API documentation for Seal Note - secure, password-protected note sharing service.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .dark .bg-white {
+            background-color: #2d2d2d;
+        }
+
+        .dark .bg-gray-50 {
+            background-color: #1a1a1a;
+        }
+
+        .dark .text-gray-600 {
+            color: #a0a0a0;
+        }
+
+        .dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+
+        .dark .text-gray-900 {
+            color: #ffffff;
+        }
+
+        .dark .border-gray-200 {
+            border-color: #404040;
+        }
+
+        .dark .bg-gray-100 {
+            background-color: #404040;
+        }
+
+        .dark .bg-blue-100 {
+            background-color: rgba(30, 58, 138, 0.3);
+        }
+
+        .dark .text-blue-800 {
+            color: #60a5fa;
+        }
+
+        .dark .bg-green-100 {
+            background-color: rgba(6, 78, 59, 0.3);
+        }
+
+        .dark .text-green-800 {
+            color: #34d399;
+        }
+
+        .dark .bg-yellow-100 {
+            background-color: rgba(120, 53, 15, 0.3);
+        }
+
+        .dark .text-yellow-800 {
+            color: #fbbf24;
+        }
+
+        .dark .bg-red-100 {
+            background-color: rgba(153, 27, 27, 0.3);
+        }
+
+        .dark .text-red-800 {
+            color: #f87171;
+        }
+
+        .dark .text-red-600 {
+            color: #f87171;
+        }
+
+        .dark .hover\:bg-gray-200:hover {
+            background-color: #404040;
+        }
+
+        .code-block {
+            background-color: #1a1a1a;
+            color: #f8f8f2;
+            border-radius: 6px;
+            padding: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .dark .code-block {
+            background-color: #0d1117;
+            border: 1px solid #404040;
+        }
+
+        .endpoint {
+            border-left: 3px solid #3b82f6;
+            padding-left: 0.75rem;
+        }
+
+        .method-get { border-left-color: #10b981; }
+        .method-post { border-left-color: #3b82f6; }
+        .method-put { border-left-color: #f59e0b; }
+        .method-delete { border-left-color: #ef4444; }
+
+        #theme-toggle .fa-sun {
+            display: none;
+        }
+
+        #theme-toggle .fa-moon {
+            display: block;
+        }
+
+        .dark #theme-toggle .fa-sun {
+            display: block;
+        }
+
+        .dark #theme-toggle .fa-moon {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900">
+    <div class="container mx-auto px-4 py-4 max-w-4xl">
+        <header class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-blue-600"><a href="/">Seal Note</a> <span class="text-sm text-gray-500">API</span></h1>
+                <p class="text-sm text-gray-600">Secure note sharing API documentation</p>
+            </div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200">
+                <i class="fas fa-sun text-sm"></i>
+                <i class="fas fa-moon text-sm"></i>
+            </button>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <div class="grid md:grid-cols-3 gap-4 text-xs">
+                <div class="text-center">
+                    <div class="text-blue-600 font-semibold">Base URL</div>
+                    <code class="text-gray-600">https://your-domain.com/api</code>
+                </div>
+                <div class="text-center">
+                    <div class="text-blue-600 font-semibold">Version</div>
+                    <span class="text-gray-600">1.0.0</span>
+                </div>
+                <div class="text-center">
+                    <div class="text-blue-600 font-semibold">Format</div>
+                    <span class="text-gray-600">JSON</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3">Quick Navigation</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                <a href="#overview" class="text-blue-600 hover:underline">Overview</a>
+                <a href="#auth" class="text-blue-600 hover:underline">Authentication</a>
+                <a href="#rate-limits" class="text-blue-600 hover:underline">Rate Limits</a>
+                <a href="#endpoints" class="text-blue-600 hover:underline">Endpoints</a>
+                <a href="#errors" class="text-blue-600 hover:underline">Error Codes</a>
+                <a href="#examples" class="text-blue-600 hover:underline">Examples</a>
+                <a href="#best-practices" class="text-blue-600 hover:underline">Best Practices</a>
+                <a href="#sdk" class="text-blue-600 hover:underline">SDKs</a>
+            </div>
+        </nav>
+
+        <section id="overview" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-info-circle text-blue-600 mr-2"></i>Overview</h2>
+            <p class="text-sm text-gray-700 mb-3">Create and manage secure, password-protected notes with expiration and view tracking.</p>
+            <div class="grid md:grid-cols-2 gap-3 text-xs">
+                <div class="flex items-center"><i class="fas fa-lock text-green-600 mr-2"></i>Password Protection</div>
+                <div class="flex items-center"><i class="fas fa-clock text-yellow-600 mr-2"></i>Auto Expiration</div>
+                <div class="flex items-center"><i class="fas fa-eye text-blue-600 mr-2"></i>View Tracking</div>
+                <div class="flex items-center"><i class="fas fa-id-badge text-purple-600 mr-2"></i>Custom Note IDs</div>
+            </div>
+        </section>
+
+        <section id="auth" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-key text-blue-600 mr-2"></i>Authentication</h2>
+            <p class="text-sm text-gray-700 mb-2">API is currently open. Optional header for future compatibility:</p>
+            <div class="code-block text-xs">
+                <pre>X-API-Key: your-api-key-here</pre>
+            </div>
+        </section>
+
+        <section id="rate-limits" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-tachometer-alt text-blue-600 mr-2"></i>Rate Limits</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                <div class="text-center p-2 bg-gray-50 rounded">
+                    <div class="font-semibold text-gray-700">General</div>
+                    <div class="text-gray-600">100/15min</div>
+                </div>
+                <div class="text-center p-2 bg-gray-50 rounded">
+                    <div class="font-semibold text-gray-700">Create</div>
+                    <div class="text-gray-600">10/min</div>
+                </div>
+                <div class="text-center p-2 bg-gray-50 rounded">
+                    <div class="font-semibold text-gray-700">Retrieve</div>
+                    <div class="text-gray-600">30/min</div>
+                </div>
+                <div class="text-center p-2 bg-gray-50 rounded">
+                    <div class="font-semibold text-gray-700">Headers</div>
+                    <div class="text-gray-600">X-RateLimit-*</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="endpoints" class="mb-4">
+            <h2 class="text-lg font-semibold mb-4"><i class="fas fa-code text-blue-600 mr-2"></i>API Endpoints</h2>
+
+            <!-- Health Check -->
+            <div class="endpoint method-get bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Health Check</h3>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">GET</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/health</code></p>
+                <div class="text-xs">
+                    <strong>Response:</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "message": "API running", "timestamp":"2024-01-15T11:30:00.000Z", "version": "1.0.0"}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Note -->
+            <div class="endpoint method-post bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Create Note</h3>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">POST</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/create</code></p>
+                <div class="text-xs">
+                    <strong>Request:</strong>
+                    <div class="code-block mt-1 mb-2">
+<pre>{"content": "message", "password": "pass123", "noteId": "custom", "expiration": "1hr"}</pre>
+                    </div>
+                    <strong>Response (201):</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "data": {"noteId": "abc123", "expiresAt": "2024-01-15T11:30:00.000Z"}}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Retrieve Note -->
+            <div class="endpoint method-post bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Retrieve Note</h3>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">POST</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/retrieve</code></p>
+                <div class="text-xs">
+                    <strong>Request:</strong>
+                    <div class="code-block mt-1 mb-2">
+<pre>{"noteId": "abc123", "password": "pass123"}</pre>
+                    </div>
+                    <strong>Response (200):</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "data": {"content": "message", "viewCount": 1, "createdAt": "..."}}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Note -->
+            <div class="endpoint method-put bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Update Note</h3>
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">PUT</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/update</code></p>
+                <div class="text-xs">
+                    <strong>Request:</strong>
+                    <div class="code-block mt-1 mb-2">
+<pre>{"noteId": "abc123", "password": "pass123", "newContent": "updated message"}</pre>
+                    </div>
+                    <strong>Response (200):</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "message": "Note updated successfully"}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Note -->
+            <div class="endpoint method-delete bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Delete Note</h3>
+                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">DELETE</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/delete</code></p>
+                <div class="text-xs">
+                    <strong>Request:</strong>
+                    <div class="code-block mt-1 mb-2">
+<pre>{"noteId": "abc123", "password": "pass123"}</pre>
+                    </div>
+                    <strong>Response (200):</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "message": "Note deleted successfully"}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Get Note Info -->
+            <div class="endpoint method-get bg-white rounded-lg shadow-md p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold">Get Note Info</h3>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">GET</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-2"><code>/api/notes/info/:noteId</code></p>
+                <div class="text-xs">
+                    <strong>Response (200):</strong>
+                    <div class="code-block mt-1">
+<pre>{"success": true, "data": {"noteId": "abc123", "viewCount": 5, "expiresAt": "..."}}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="errors" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>Error Codes</h2>
+            <div class="text-xs">
+                <p class="mb-2"><strong>Format:</strong> <code>{"success": false, "error": "message", "code": "ERROR_CODE"}</code></p>
+                <div class="grid md:grid-cols-3 gap-3">
+                    <div class="space-y-1">
+                        <div class="font-semibold text-red-600">400 Bad Request</div>
+                        <div class="text-gray-600">MISSING_REQUIRED_FIELDS</div>
+                        <div class="text-gray-600">INVALID_NOTE_ID</div>
+                        <div class="text-gray-600">INVALID_EXPIRATION</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="font-semibold text-red-600">401/404/409</div>
+                        <div class="text-gray-600">INVALID_PASSWORD</div>
+                        <div class="text-gray-600">NOTE_NOT_FOUND</div>
+                        <div class="text-gray-600">NOTE_ID_EXISTS</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="font-semibold text-red-600">410/429</div>
+                        <div class="text-gray-600">NOTE_EXPIRED</div>
+                        <div class="text-gray-600">MAX_VIEWS_REACHED</div>
+                        <div class="text-gray-600">RATE_LIMIT_EXCEEDED</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="mb-4">
+            <h2 class="text-lg font-semibold mb-4"><i class="fas fa-code text-blue-600 mr-2"></i>Code Examples</h2>
+
+            <!-- JavaScript Example -->
+            <div class="bg-white rounded-lg shadow-md p-4 mb-3">
+                <h3 class="text-sm font-semibold mb-2">
+                    <i class="fab fa-js-square text-yellow-500 mr-1"></i>JavaScript
+                </h3>
+                <div class="code-block text-xs">
+<pre>// Create note
+const response = await fetch('/api/notes/create', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    content: "Secret message",
+    password: "pass123",
+    expiration: "1d"
+  })
+});
+
+// Retrieve note
+const note = await fetch('/api/notes/retrieve', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({noteId: "abc123", password: "pass123"})
+}).then(r => r.json());</pre>
+                </div>
+            </div>
+
+            <!-- Python Example -->
+            <div class="bg-white rounded-lg shadow-md p-4 mb-3">
+                <h3 class="text-sm font-semibold mb-2">
+                    <i class="fab fa-python text-blue-500 mr-1"></i>Python
+                </h3>
+                <div class="code-block text-xs">
+<pre>import requests
+
+# Create note
+response = requests.post('https://your-domain.com/api/notes/create', json={
+    'content': 'Secret message',
+    'password': 'pass123',
+    'expiration': '1d'
+})
+
+# Retrieve note
+note = requests.post('https://your-domain.com/api/notes/retrieve', json={
+    'noteId': 'abc123',
+    'password': 'pass123'
+}).json()</pre>
+                </div>
+            </div>
+
+            <!-- cURL Example -->
+            <div class="bg-white rounded-lg shadow-md p-4 mb-3">
+                <h3 class="text-sm font-semibold mb-2">
+                    <i class="fas fa-terminal text-gray-600 mr-1"></i>cURL
+                </h3>
+                <div class="code-block text-xs">
+<pre># Create note
+curl -X POST https://your-domain.com/api/notes/create \
+  -H "Content-Type: application/json" \
+  -d '{"content":"Secret message","password":"pass123","expiration":"1d"}'
+
+# Retrieve note
+curl -X POST https://your-domain.com/api/notes/retrieve \
+  -H "Content-Type: application/json" \
+  -d '{"noteId":"abc123","password":"pass123"}'</pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="best-practices" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-lightbulb text-blue-600 mr-2"></i>Best Practices</h2>
+            <div class="grid md:grid-cols-2 gap-3 text-xs">
+                <div class="flex items-start">
+                    <i class="fas fa-shield-alt text-green-500 mr-2 mt-0.5"></i>
+                    <div><strong>Security:</strong> Use HTTPS and strong passwords</div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-clock text-blue-500 mr-2 mt-0.5"></i>
+                    <div><strong>Rate Limits:</strong> Implement client-side throttling</div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-bug text-yellow-500 mr-2 mt-0.5"></i>
+                    <div><strong>Errors:</strong> Always check <code>success</code> field</div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-database text-gray-500 mr-2 mt-0.5"></i>
+                    <div><strong>Logging:</strong> Don't log sensitive note content</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sdk" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-3"><i class="fas fa-puzzle-piece text-blue-600 mr-2"></i>Quick SDK</h2>
+            <div class="code-block text-xs">
+<pre>class SealNoteAPI {
+  constructor(baseUrl = 'https://your-domain.com/api') {
+    this.baseUrl = baseUrl;
+  }
+  
+  async create(content, password, options = {}) {
+    const response = await fetch(`${this.baseUrl}/notes/create`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({content, password, ...options})
+    });
+    return response.json();
+  }
+  
+  async retrieve(noteId, password) {
+    const response = await fetch(`${this.baseUrl}/notes/retrieve`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({noteId, password})
+    });
+    return response.json();
+  }
+}
+
+// Usage: const api = new SealNoteAPI();</pre>
+            </div>
+        </section>
+
+        <footer class="text-center py-4 text-xs text-gray-500 border-t border-gray-200">
+            <p>&copy; <span id="year"></span> <a href="/" class="text-blue-600 hover:underline">Seal Note</a>. All rights reserved. | <a href="/" class="text-blue-500 hover:underline">Back to App</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Theme handling
+        const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const year = document.getElementById('year');
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.toggle('dark', savedTheme === 'dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        year.innerHTML = new Date().getFullYear();
+    </script>
+</body>
+</html>

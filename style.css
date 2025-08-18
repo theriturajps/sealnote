@@ -1,0 +1,116 @@
+body {
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.dark {
+	background-color: #1a1a1a;
+	color: #ffffff;
+}
+
+.dark .bg-white {
+	background-color: #2d2d2d;
+}
+
+.dark .text-gray-500 {
+	color: #a0a0a0;
+}
+
+.dark .border-gray-200 {
+	border-color: #404040;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+	background-color: #171616;
+	border-color: #404040;
+	color: #ffffff;
+}
+
+.dark .bg-gray-200 {
+	background-color: #404040;
+}
+
+.dark .text-gray-700 {
+	color: #e0e0e0;
+}
+
+.dark #noteModal {
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
+.dark .hover\:bg-gray-200:hover {
+	background-color: #404040;
+}
+
+.dark .hover\:bg-gray-300:hover {
+	background-color: #4a4a4a;
+}
+
+.dark .hover\:text-gray-700:hover {
+	color: #ffffff;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fadeIn {
+	animation: fadeIn 0.3s ease-out forwards;
+}
+
+.dark .bg-green-100 {
+	background-color: rgba(6, 78, 59, 0.3);
+}
+
+.dark .bg-red-100 {
+	background-color: rgba(153, 27, 27, 0.3);
+}
+
+.dark .bg-yellow-100 {
+	background-color: rgba(120, 53, 15, 0.3);
+}
+
+.dark .bg-blue-100 {
+	background-color: rgba(30, 58, 138, 0.3);
+}
+
+.dark .text-green-700 {
+	color: #34d399;
+}
+
+.dark .text-red-700 {
+	color: #f87171;
+}
+
+.dark .text-yellow-700 {
+	color: #fbbf24;
+}
+
+.dark .text-blue-700 {
+	color: #60a5fa;
+}
+
+#theme-toggle .fa-sun {
+	display: none;
+}
+
+#theme-toggle .fa-moon {
+	display: block;
+}
+
+.dark #theme-toggle .fa-sun {
+	display: block;
+}
+
+.dark #theme-toggle .fa-moon {
+	display: none;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Seal Note - Secure Note Sharing</title>
+	<meta name="description" content="Create and share secure, password-protected notes with expiration and one-time view options.">
+	<link href="./tailwind.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body class="min-h-screen flex flex-col">
+	<div class="container mx-auto px-4 py-4 max-w-sm flex-grow">
+		<header class="flex justify-between items-center mb-4">
+			<h1 class="text-xl font-bold text-blue-600"><a href="/">Seal Note</a></h1>
+			<button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200">
+				<i class="fas fa-sun"></i>
+				<i class="fas fa-moon"></i>
+			</button>
+		</header>
+		<div class="bg-white rounded-lg shadow-md pr-2 pl-2 pt-1 pb-1">
+			<div class="flex mb-3 border-b border-gray-200">
+				<button id="create-tab" class="flex-1 py-1.5 px-3 text-sm font-medium text-gray-500 border-b-2 border-blue-600"><i class="fas fa-plus-circle mr-1"></i> Create</button>
+				<button id="retrieve-tab" class="flex-1 py-1.5 px-3 text-sm font-medium text-gray-500"><i class="fas fa-search mr-1"></i> Retrieve</button>
+			</div>
+			<form id="create-note-form" class="space-y-2">
+				<div>
+					<label for="note-content" class="block text-xs font-medium text-gray-700 mb-1">Note Content</label>
+					<textarea id="note-content" class="w-full h-40 p-2 border rounded-md resize-none text-sm" placeholder="Enter your note..." required></textarea>
+				</div>
+				<div>
+					<label for="custom-note-id" class="block text-xs font-medium text-gray-700 mb-1">Custom Note ID (optional)</label>
+					<input type="text" id="custom-note-id" class="w-full p-2 border rounded-md text-sm" placeholder="e.g., myNote123">
+				</div>
+				<div>
+					<label for="note-password" class="block text-xs font-medium text-gray-700 mb-1">Password</label>
+					<input type="password" id="note-password" class="w-full p-2 border rounded-md text-sm" placeholder="Enter a strong password" required>
+				</div>
+				<div>
+					<label for="expiration" class="block text-xs font-medium text-gray-700 mb-1">Expiration</label>
+					<select id="expiration" class="w-full p-2 border rounded-md text-sm">
+						<option value="1hr">1 Hour</option>
+						<option value="1d">1 Day</option>
+						<option value="7d">7 Days</option>
+					</select>
+				</div>
+				<button type="submit" class="w-full py-1.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-lock mr-1"></i> Create Seal Note</button>
+			</form>
+			<form id="retrieve-note-form" class="hidden space-y-2">
+				<div>
+					<label for="note-id" class="block text-xs font-medium text-gray-700 mb-1">Note ID</label>
+					<input type="text" id="note-id" class="w-full p-2 border rounded-md text-sm" placeholder="Note ID" required>
+				</div>
+				<div>
+					<label for="retrieve-password" class="block text-xs font-medium text-gray-700 mb-1">Password</label>
+					<input type="password" id="retrieve-password" class="w-full p-2 border rounded-md text-sm" placeholder="Password" required>
+				</div>
+				<button type="submit" class="w-full py-1.5 bg-green-600 text-white rounded-md text-sm hover:bg-green-700"><i class="fas fa-unlock mr-1"></i> Retrieve Note</button>
+			</form>
+		</div>
+	</div>
+	<footer class="text-center py-3 text-xs text-gray-500 border-t border-gray-200">
+		<p>&copy; <span id="year"></span> <a href="/" class="text-blue-600">Seal Note</a>. All rights reserved. | <a href="/docs.html" class="text-blue-500">API Docs</a></p>
+	</footer>
+	<div id="noteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+		<div class="bg-white rounded-lg w-full max-w-sm">
+			<div class="p-2">
+				<div class="flex justify-between items-center mb-3">
+					<h3 class="text-lg font-medium">Your Note</h3>
+					<button id="close-modal" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+				</div>
+				<textarea id="retrieved-note-content" class="w-full h-28 p-2 border rounded-md resize-none" readonly></textarea>
+				<div class="flex gap-2">
+					<button id="edit-note-btn" class="flex-1 py-1.5 px-3 bg-gray-200 text-gray-700 text-sm rounded-md hover:bg-gray-300 w-20"><i class="fas fa-edit mr-1"></i> Edit</button>
+					<button id="save-note-btn" class="hidden flex-1 py-1.5 px-3 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 w-20"><i class="fas fa-save mr-1"></i> Save</button>
+					<button id="delete-note-btn" class="flex-1 py-1.5 px-3 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 w-20"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="app.js"></script>
+</body>
+</html>
