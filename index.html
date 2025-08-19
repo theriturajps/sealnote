@@ -30,7 +30,12 @@
 				</div>
 				<div>
 					<label for="custom-note-id" class="block text-xs font-medium text-gray-700 mb-1">Custom Note ID (optional)</label>
-					<input type="text" id="custom-note-id" class="w-full p-2 border rounded-md text-sm" placeholder="e.g., myNote123">
+					<div class="flex gap-1">
+						<input type="text" id="custom-note-id" class="flex-1 p-2 border rounded-md text-sm" placeholder="e.g., myNote123">
+						<button type="button" id="regenerate-note-id" class="px-2 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-xs">
+							<i class="fas fa-sync-alt"></i>
+						</button>
+					</div>
 				</div>
 				<div>
 					<label for="note-password" class="block text-xs font-medium text-gray-700 mb-1">Password</label>

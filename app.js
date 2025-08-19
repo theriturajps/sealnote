@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveBtn = document.getElementById('save-note-btn');
   const deleteBtn = document.getElementById('delete-note-btn');
   const themeToggle = document.getElementById('theme-toggle');
+  const regenerateBtn = document.getElementById('regenerate-note-id');
+  const customNoteIdInput = document.getElementById('custom-note-id');
   const year = document.getElementById('year');
 
   // Theme Handling
@@ -26,6 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
   themeToggle.addEventListener('click', () => {
     htmlElement.classList.toggle('dark');
     localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  // Generate Note ID function
+  function generateNoteId(length = 6) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let noteId = '';
+    for (let i = 0; i < length; i++) {
+      noteId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return noteId;
+  }
+
+  // Auto-prefill custom note ID on page load
+  customNoteIdInput.value = generateNoteId();
+
+  // Regenerate Note ID button
+  regenerateBtn.addEventListener('click', () => {
+    customNoteIdInput.value = generateNoteId();
   });
 
   // Tab Switching
