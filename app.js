@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   const apiBaseUrl = 'https://sealnote.on.shiper.app'
 
   // DOM Elements
@@ -32,20 +31,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate Note ID function
   function generateNoteId(length = 6) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
     let noteId = '';
-    for (let i = 0; i < length; i++) {
-      noteId += characters.charAt(Math.floor(Math.random() * characters.length));
+    
+    // Generate a more secure random ID
+    const crypto = window.crypto || window.msCrypto;
+    if (crypto && crypto.getRandomValues) {
+      const values = new Uint32Array(length);
+      crypto.getRandomValues(values);
+      for (let i = 0; i < length; i++) {
+        noteId += characters[values[i] % characters.length];
+      }
+    } else {
+      // Fallback for browsers without crypto support
+      for (let i = 0; i < length; i++) {
+        noteId += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
     }
     return noteId;
   }
 
-  // Auto-prefill custom note ID on page load
-  customNoteIdInput.value = generateNoteId();
+  // Validate Note ID
+  function isValidNoteId(id) {
+    return /^[a-zA-Z0-9]{4,20}$/.test(id);
+  }
 
-  // Regenerate Note ID button
-  regenerateBtn.addEventListener('click', () => {
+  // Initialize with a generated ID
+  function initializeNoteId() {
     customNoteIdInput.value = generateNoteId();
+  }
+
+  // Call initialization when page loads
+  initializeNoteId();
+
+  // Regenerate Note ID button with animation
+  regenerateBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const icon = regenerateBtn.querySelector('i');
+    icon.classList.add('fa-spin');
+    
+    setTimeout(() => {
+      customNoteIdInput.value = generateNoteId();
+      icon.classList.remove('fa-spin');
+      showFeedback('New ID generated', 'info', 'create');
+    }, 500);
   });
 
   // Tab Switching
@@ -164,13 +193,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Auto-prefill custom note ID on page load with validation
+  customNoteIdInput.addEventListener('input', () => {
+    if (!isValidNoteId(customNoteIdInput.value)) {
+      customNoteIdInput.classList.add('border-red-500');
+      showFeedback('Note ID must be 4-20 alphanumeric characters', 'warning', 'create');
+    } else {
+      customNoteIdInput.classList.remove('border-red-500');
+      // Clear any previous warnings if valid
+      const feedback = document.getElementById('create-feedback');
+      if (feedback.textContent.includes('Note ID must be')) {
+        feedback.innerHTML = '';
+      }
+    }
+  });
+
   // Create Note Form Handler
   createForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const content = document.getElementById('note-content').value.trim();
     const password = document.getElementById('note-password').value.trim();
-    const customNoteId = document.getElementById('custom-note-id').value.trim();
+    const customNoteId = customNoteIdInput.value.trim();
     const expiration = document.getElementById('expiration').value;
+
+    // Validate note ID
+    if (!isValidNoteId(customNoteId)) {
+      showFeedback('Note ID must be 4-20 alphanumeric characters', 'error', 'create');
+      customNoteIdInput.classList.add('border-red-500');
+      customNoteIdInput.focus();
+      return;
+    }
 
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes/create`, {
@@ -193,7 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const successMessage = `✓ Note created successfully! ID: ${result.data.noteId} | Expires in: ${expirationText} | <button onclick="navigator.clipboard.writeText('${shareableLink}')" class="ml-1 px-1 py-0.5 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">Copy Link</button>`;
 
         showFeedback(successMessage, 'success', 'create');
-        createForm.reset();
+        document.getElementById('note-content').value = '';
+        document.getElementById('note-password').value = '';
+        customNoteIdInput.value = generateNoteId();
       } else {
         showFeedback(result.error || 'Failed to create note', 'error', 'create');
       }
